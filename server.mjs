@@ -72,7 +72,7 @@ function keyFrom(req, body) {
   const header = req.headers["x-api-key"];
   if (typeof header === "string" && header.trim()) return header.trim();
   if (typeof body?.apiKey === "string" && body.apiKey.trim()) return body.apiKey.trim();
-  return process.env.XAI_API_KEY || "";
+  return process.env.DEEPSEEK_API_KEY || process.env.XAI_API_KEY || "";
 }
 
 const server = createServer(async (req, res) => {
@@ -83,7 +83,10 @@ const server = createServer(async (req, res) => {
       .trim();
 
     if (req.method === "GET" && url.pathname === "/api/health") {
-      sendJson(res, 200, { ok: true, hasServerKey: Boolean(process.env.XAI_API_KEY) });
+      sendJson(res, 200, {
+        ok: true,
+        hasServerKey: Boolean(process.env.DEEPSEEK_API_KEY || process.env.XAI_API_KEY),
+      });
       return;
     }
 
@@ -121,7 +124,7 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Prove Me Wrong — sit down at http://localhost:${PORT}`);
-  if (!process.env.XAI_API_KEY) {
-    console.log("No XAI_API_KEY in the environment. Visitors can paste a key in the browser.");
+  if (!process.env.DEEPSEEK_API_KEY && !process.env.XAI_API_KEY) {
+    console.log("No DEEPSEEK_API_KEY or XAI_API_KEY in the environment. Visitors can paste a key in the browser.");
   }
 });
