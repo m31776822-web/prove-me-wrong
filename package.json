@@ -1,0 +1,14 @@
+{
+  "name": "prove-me-wrong",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Sit across from Charlie Kirk. Pick a topic. Make your case.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  }
+}
